@@ -1,3 +1,6 @@
+import manager.CommandManager;
+import manager.TaskManager;
+
 import java.util.Scanner;
 
 public class Main {
@@ -10,31 +13,8 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            System.out.println("Введите название задачи:");
-            String name = scanner.nextLine();
-
-            if ("exit".equalsIgnoreCase(name)) {
-                break;
-            }
-
-            System.out.println("Введите текст задачи:");
-            String text = scanner.nextLine();
-
-            System.out.println("Введите статус задачи:");
-            String status = scanner.nextLine();
-
-
-
-
-
-            try {
-                taskmanager.addTask(new Task(name, text, status));
-                System.out.println("задача добавлена");
-            } catch (NumberFormatException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        CommandManager commandmanager = new CommandManager(scanner, taskmanager);
+        commandmanager.processInput();
 
         scanner.close();
     }

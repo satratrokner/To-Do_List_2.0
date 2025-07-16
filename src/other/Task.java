@@ -1,3 +1,5 @@
+package other;
+
 public class Task {
     int number;
     String name;

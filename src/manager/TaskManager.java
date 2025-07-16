@@ -1,3 +1,7 @@
+package manager;
+
+import other.Task;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -5,8 +9,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class TaskManager {
-    private ArrayList<Task> tasks = new ArrayList<>();
-    private int nextnumber = 1;
+    public ArrayList<Task> tasks = new ArrayList<>();
+    public int nextnumber = 1;
 
     public void addTask(Task task) {
         task.setNumber(nextnumber++);
@@ -59,6 +63,16 @@ public class TaskManager {
             }
         }
 
+        public void showTasks(){
+        if (tasks.isEmpty()){
+            System.out.println("ваш список задач пуст");
+        } else {
+            for (Task task: tasks){
+                System.out.println(task.getNumber()+" "+task.getName()+" "+task.getText()+" "+task.getStatus());
+            }
+        }
     }
+
+}
 
 
