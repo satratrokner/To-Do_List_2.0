@@ -1,8 +1,6 @@
 package command;
-
 import manager.TaskManager;
-import other.Task;
-
+import models.Task;
 import java.util.Scanner;
 
 public class Add implements Command {
@@ -26,10 +24,24 @@ public class Add implements Command {
 
         if ("exit".equalsIgnoreCase(text)) return;
 
-        System.out.println("Введите статус задачи:");
-        String status = scanner.nextLine();
+        String status = "";
+        boolean validStatus = false;
 
-        if ("exit".equalsIgnoreCase(status)) return;
+        while (!validStatus) {
+            System.out.println("Введите статус задачи (выполнено / не выполнено):");
+            status = scanner.nextLine().trim();
+
+            if ("exit".equalsIgnoreCase(status)) {
+                return;
+            }
+
+            if (status.equalsIgnoreCase("выполнено") || status.equalsIgnoreCase("не выполнено")) {
+                validStatus = true;
+            } else {
+                System.out.println("Некорректный статус. Допустимые значения: 'выполнено', 'не выполнено'.");
+            }
+        }
+
 
         taskmanager.addTask(new Task(name, text, status));
         System.out.println("Задача добавлена");

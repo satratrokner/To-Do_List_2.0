@@ -1,8 +1,6 @@
 package manager;
 
-import command.Add;
-import command.Command;
-import command.Exit;
+import command.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +15,8 @@ public class CommandManager {
 
         commands.put("add", new Add(taskmanager, scanner));
         commands.put("exit", new Exit());
+        commands.put("show", new Show(taskmanager));
+        commands.put("change status", new ChangeStatus(taskmanager, scanner));
     }
 
     /* public void RegisterCommand(String key, command.Command command){

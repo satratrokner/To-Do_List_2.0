@@ -1,6 +1,6 @@
 package manager;
 
-import other.Task;
+import models.Task;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,11 +12,53 @@ public class TaskManager {
     public ArrayList<Task> tasks = new ArrayList<>();
     public int nextnumber = 1;
 
-    public void addTask(Task task) {
-        task.setNumber(nextnumber++);
-        tasks.add(task);
+    //проверять существование таски с таким номером
+    public boolean taskExist(int number){
+        for (Task task: tasks){
+            if (task.getNumber() == number) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // изменять статус отдельно
+    public boolean changeStatus(int number, String newstatus) {
+        for (Task task : tasks) {
+            if (task.getNumber() == number) {
+                task.setStatus(newstatus);
+                return true;
+            }
+        }
+        return false;
     }
 
+
+    //добавлять новую задачу
+    public void addTask(Task task) {
+            task.setNumber(nextnumber++);
+            tasks.add(task);
+    }
+
+    //сохранять всё в файл после завершения программы
+    public void setupShutDownHook(String filename) {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Завершаю программу, сохраняю данные в файл");
+            saveTasksToFile(filename);
+        }));
+    }
+
+    //выводить список имеющихся тасков
+    public void showTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("ваш список задач пуст");
+        } else {
+            for (Task task : tasks) {
+                System.out.println(task.getNumber() + " " + task.getName() + " " + task.getText() + " " + task.getStatus());
+            }
+        }
+    }
+
+    //снова сохранять все данные в файл
     public void saveTasksToFile(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Task task : tasks) {
@@ -29,14 +71,7 @@ public class TaskManager {
         }
     }
 
-    public void setupShutDownHook(String filename) {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("Завершаю программу, сохраняю данные в файл");
-            saveTasksToFile(filename);
-        }));
-    }
-
-    //пыталась сделать так, чтобы нумерация начиналась не всегда с еденицы
+    //метод для загрузки данных из файла при входе в программу
     public void loadTaskFromFile(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -63,16 +98,9 @@ public class TaskManager {
             }
         }
 
-        public void showTasks(){
-        if (tasks.isEmpty()){
-            System.out.println("ваш список задач пуст");
-        } else {
-            for (Task task: tasks){
-                System.out.println(task.getNumber()+" "+task.getName()+" "+task.getText()+" "+task.getStatus());
-            }
-        }
+
     }
 
-}
+
 
 

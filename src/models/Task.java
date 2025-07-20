@@ -1,4 +1,4 @@
-package other;
+package models;
 
 public class Task {
     int number;
@@ -9,6 +9,10 @@ public class Task {
     public Task(String name, String text, String status) {
         this.name = name;
         this.text = text;
+        this.status = status;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
     }
 
